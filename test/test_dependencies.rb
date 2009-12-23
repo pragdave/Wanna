@@ -11,10 +11,17 @@ class TestDependencies < Test::Unit::TestCase
   LUNCH     = Time.local(2009, 12, 25, 12, 0, 0)
   DINNER    = Time.local(2009, 12, 25, 18, 0, 0)
 
-  module F
+  module F   # files we're working with
     TARGET      = "target"
     PARENT      = "parent"
     GRANDPARENT = "grandparent"
+    
+    def self.tidyup
+      constants.each do |const|
+        file_name = F.const_get(const)
+        FileUtils.rm_f(file_name)
+      end
+    end
   end
 
                      
@@ -25,7 +32,7 @@ class TestDependencies < Test::Unit::TestCase
     end
 
     teardown do
-      TestDependencies::tidyup_files
+      F::tidyup
     end
     
     context "with a single basic task" do
@@ -132,8 +139,8 @@ class TestDependencies < Test::Unit::TestCase
       context "where the grandparent is older than the parent and the parent is older that the target" do
         setup do
           TestDependencies::touch(F::GRANDPARENT, BREAKFAST)
-          TestDependencies::touch(F::PARENT, LUNCH)
-          TestDependencies::touch(F::TARGET, DINNER)
+          TestDependencies::touch(F::PARENT,      LUNCH)
+          TestDependencies::touch(F::TARGET,      DINNER)
         end
         
         should "not be out of date" do
@@ -146,8 +153,8 @@ class TestDependencies < Test::Unit::TestCase
       context "where the grandparent is younger than the parent and the parent is older that the target" do
         setup do
           TestDependencies::touch(F::GRANDPARENT, LUNCH)
-          TestDependencies::touch(F::PARENT, BREAKFAST)
-          TestDependencies::touch(F::TARGET, DINNER)
+          TestDependencies::touch(F::PARENT,      BREAKFAST)
+          TestDependencies::touch(F::TARGET,      DINNER)
         end
         
         should "be out of date" do
@@ -167,14 +174,10 @@ class TestDependencies < Test::Unit::TestCase
   #
   
   def self.touch(filename, mtime)
-    FileUtils.touch(filename)
+    # touch doesn't set mtime if it creates the file (arguably a bug)
+    FileUtils.touch(filename) unless File.exist?(filename) 
     FileUtils.touch(filename, :mtime => mtime)
   end
   
-  def self.tidyup_files
-    F.constants.each do |const|
-      file_name = F.const_get(const)
-      FileUtils.rm_f(file_name)
-    end
-  end
+
 end
