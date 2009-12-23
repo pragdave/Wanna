@@ -14,7 +14,7 @@ module Wanna
     end
     
     def modified
-      File.stat(@name).mtime
+      File.mtime(@name)
     end
   end
   
