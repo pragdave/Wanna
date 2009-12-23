@@ -1,0 +1,77 @@
+to "show test coverage (aka rcov)" do
+  system("rcov -I lib -x /Library -i lib/**/*.rb test/test*rb")
+end
+
+to "do something (aka xxx)" do
+  puts "Hello from the block"
+end
+ 
+to "do something else (aka yyy)", :needs => "do something" do
+  puts "doing something else"
+end
+
+to create("book.pdf"), :needs => "book.pml" do
+  puts "Book.pdf"
+  system("touch book.pdf")
+end                                        
+
+to create("book.pml") do
+  puts "book.pml"
+  system("touch book.pml")
+end
+
+to "remove generated files (aka clean)" do
+  system("rm -f book.pml book.pdf")
+end
+      
+to "a", :needs => [ "b", "c"] do
+  puts "a"
+end
+
+to "b", :needs => "d" do
+  puts "b"
+end
+
+to "c", :needs => "d" do
+  puts "c"
+end
+
+to "d" do
+  puts "d"
+end
+# group "Housekeeping functions"
+# 	to "tidy up (aka clean)" do
+# 	  remove_generated_files
+# 	  rm GENERATED_FILES
+# 	end
+# 
+# 	to "clean back to the initial state (aka distclean)" do
+# 	  run "tidy up"
+# 	  rm "*.pdf"
+# 	end
+# end
+# 
+# 
+# to convert(".pml" => ".xml"), :using => "map.xslt" do |context|
+#   sh "xsltproc map.xslt #{context.source} >#{context.target}"
+# end  
+#  
+# to create("book.pdf"), :from => "book.tex", :using => [ "memoir.cls", "*.sss" ] do
+#   tracking_files_in(".") do
+#   end
+# end
+#                             
+# to create(".pdf"), :from => ".tex" do
+# 
+# to create("big_<name>"), :from => "small_<name>" do
+# 
+# 
+# 
+# to construct("big_<name>" from "<name>), :using => "map.xslt" do |context|
+#   puts context.
+# end
+# 
+# to "upload files (aka upload)", :from => "files.zip" do
+# 
+# end   
+

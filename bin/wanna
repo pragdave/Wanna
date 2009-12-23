@@ -1,0 +1,20 @@
+# -*- ruby -*-
+require 'wanna'
+
+require 'wanna/cmd/options'
+
+
+
+rikefile = File.read("Rikefile")
+
+builder = Wanna::TasklistBuilder.new
+builder.interpret do
+  eval(rikefile)
+end 
+                  
+options = Wanna::Cmd::Options.new(builder)
+options.parse
+
+ARGV.each do |target|
+  builder.run_target(target)
+end
