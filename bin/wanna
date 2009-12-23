@@ -5,7 +5,7 @@ require 'wanna/cmd/options'
 
 
 
-rikefile = File.read("Rikefile")
+rikefile = File.read("Demands")
 
 builder = Wanna::TasklistBuilder.new
 builder.interpret do
