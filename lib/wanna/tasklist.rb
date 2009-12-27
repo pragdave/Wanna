@@ -1,7 +1,7 @@
 module Wanna
   class Tasklist
 
-    DEFAULT_GROUP = nil
+    DEFAULT_GROUP = []
     
     def initialize
       @tasks = {}
@@ -18,10 +18,24 @@ module Wanna
     end                                      
     
     def tasks_matching(pattern = nil)
-      pattern = Regexp.new(pattern || '.')
-      @tasks.values.select {|task| task =~ pattern }.uniq.sort_by {|task| task.name}
+      pattern = Regexp.new(pattern || '.', Regexp::IGNORECASE)
+      result = []
+      @tasks_by_group.keys.sort.each do |group|
+        tasks = @tasks_by_group[group]
+        if group && group.any? { |g| g =~ pattern }
+          result << [ group, tasks.values.uniq ]
+        else
+          matches = tasks.values.select {|task| task =~ pattern }.uniq.sort_by {|task| task.name}
+          result << [ group, matches.uniq ] unless matches.empty?
+        end
+      end   
+      result
     end
     
+    # For testing
+    def tasks_in_group(group_array)
+      @tasks_by_group[group_array].values
+    end
   private
     
     def add_task_by_name(task, name, group)

@@ -20,11 +20,46 @@ class TestTasklistBuilder < Test::Unit::TestCase
       @io.expects(:puts).with("basic task (aka simple)")
       @tlb.display_tasks_matching("simp", @io)
     end
+  
+    context "with tasks in a group using the block form of group()" do
+      setup do
+        @tlb.group("group1") do 
+          to("task1")
+          to("task2")
+        end
+        @tlb.to("task3")
+      end
+      
+      should "have those tasks in the correct groups" do
+        assert_equal [ "task1", "task2" ], @tlb.tasks_in_group("group1").map {|t| t.name}
+        assert_equal [ "task3" ], @tlb.tasks_in_group.map {|t| t.name}
+      end
+      
+      should "group the output when asked to display tasks" do
+        @io.expects(:puts).with("task3")
+        @io.expects(:puts).with("\ngroup1:")
+        @io.expects(:puts).with("    task1")
+        @io.expects(:puts).with("    task2")
+        @tlb.display_tasks_matching(".", @io)
+      end
+      
+    end
+    
+    should "add tasks in a group using the inline form of group()" do
+      @tlb.group("group1")
+      @tlb.to("task1")
+      @tlb.to("task2")
+      @tlb.group("group2")
+      @tlb.to("task3")
+      assert_equal [ "task1", "task2" ], @tlb.tasks_in_group("group1").map {|t| t.name}
+      assert_equal [ "task3" ], @tlb.tasks_in_group("group2").map {|t| t.name}
+    end
     
     should "raise an exception if the first parameter isn't recognized" do
       assert_raises(RuntimeError) { @tlb.to(99) }
     end
-  end
+  end 
+  
   
   context "a task builder with a couple of tasks" do
     setup do 

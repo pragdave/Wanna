@@ -16,6 +16,20 @@ module Wanna
       instance_eval(&block)
     end
     
+    # Group together related tasks. With a block, group tasks in the
+    # block. With no block, group tasks until the next group statement
+    
+    def group(name, &block)
+      if block
+        @groups.push name
+        interpret(&block)
+        @groups.pop
+      else
+        @groups.pop unless @groups.empty?
+        @groups.push name
+      end
+    end
+    
     # Used to specify that a target is a file (or a file pattern)
     #
     #   to create("book.pdf") do..
@@ -36,7 +50,7 @@ module Wanna
           fail "The first parameter to a to() call should be a String. I got a #{task_descriptor.class}"
       end     
       task = klass.new(task_descriptor, options, block)
-      @tasklist.add_task(task)
+      @tasklist.add_task(task, @groups.dup)
     end
     
     def run_target(target)
@@ -56,8 +70,17 @@ module Wanna
     end
     
     def display_tasks_matching(pattern, io)
-      @tasklist.tasks_matching(pattern).each do |task|
-        io.puts task.display_name
+      @tasklist.tasks_matching(pattern).each do |group, task_list|
+        if group.nil? || group.empty?
+          list_tasks(task_list, io)
+        else
+          indent = ""
+          group.each do |nested_group_name|
+            io.puts "\n#{indent}#{nested_group_name}:"
+            indent << "    "
+          end
+          list_tasks(task_list, io, indent)
+        end
       end
     end 
       
@@ -75,5 +98,20 @@ module Wanna
         exit 1
       end
      end 
+      
+     
+     # For tests:
+     
+     def tasks_in_group(*group)
+       @tasklist.tasks_in_group(group)
+     end  
+  private     
+     
+     def list_tasks(tasks, io, indent="")
+       tasks.each do |task|
+         io.puts "#{indent}#{task.display_name}"
+       end
+     end  
+       
   end
 end

@@ -1,29 +1,37 @@
-to "show test coverage (aka rcov)" do
-  system("rcov -I lib -x /Library -i lib/**/*.rb test/test*rb")
+group "Testing" do
+  to "show test coverage (aka rcov)" do
+    system("rcov -I lib -x /Library -i lib/**/*.rb test/test*rb")
+  end
 end
 
-to "do something (aka xxx)" do
-  puts "Hello from the block"
-end
+group "Various play tasks" do
+  to "do something (aka xxx)" do
+    puts "Hello from the block"
+  end
  
-to "do something else (aka yyy)", :needs => "do something" do
-  puts "doing something else"
+  to "do something else (aka yyy)", :needs => "do something" do
+    puts "doing something else"
+  end
 end
 
-to create("book.pdf"), :needs => "book.pml" do
-  puts "Book.pdf"
-  system("touch book.pdf")
-end                                        
+group "Book building" do
+  to create("book.pdf"), :needs => "book.pml" do
+    puts "Book.pdf"
+    system("touch book.pdf")
+  end                                        
 
-to create("book.pml") do
-  puts "book.pml"
-  system("touch book.pml")
+  to create("book.pml") do
+    puts "book.pml"
+    system("touch book.pml")
+  end
 end
 
-to "remove generated files (aka clean)" do
-  system("rm -f book.pml book.pdf")
-end
-      
+group "Housekeeping" do
+  to "remove generated files (aka clean)" do
+    system("rm -f book.pml book.pdf")
+  end
+end      
+  
 to "a", :needs => [ "b", "c"] do
   puts "a"
 end
