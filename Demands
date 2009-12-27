@@ -1,3 +1,5 @@
+options(:tracing => :verbose)
+
 group "Testing" do
   to "show test coverage (aka rcov)" do
     system("rcov -I lib -x /Library -i lib/**/*.rb test/test*rb")
@@ -31,9 +33,14 @@ group "Housekeeping" do
     system("rm -f book.pml book.pdf")
   end
 end      
-  
+ 
+def say(*args)
+  puts "say"
+  puts args
+end
+
 to "a", :needs => [ "b", "c"] do
-  puts "a"
+  say "a"
 end
 
 to "b", :needs => "d" do

@@ -16,6 +16,12 @@ module Wanna
       instance_eval(&block)
     end
     
+    # Set the options for the run
+    # :tracing => ( :silent, :errors, :information, :verbose )
+    def options(opts)
+      Wanna::Options.merge_in(opts)
+    end
+    
     # Group together related tasks. With a block, group tasks in the
     # block. With no block, group tasks until the next group statement
     

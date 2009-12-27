@@ -23,6 +23,23 @@ module Wanna::Cmd
             exit 0
           end
         ],
+        ['--option', '-O option=value', "Set the given option before parsing the demands",
+          lambda do |opt|
+            unless opt =~ /^(.*?)=(.*)/
+              STDERR.puts "Invalid Wanna option: #{opt}"
+              exit 1
+            end
+            option = $1
+            value = $2
+            begin
+              Wanna::Options.set_command_line_option(option, value)
+            rescue RuntimeError => e
+              STDERR.puts e.message
+              STDERR.puts "(for a list of valid options, try `wanna --help')"
+              exit 1
+            end
+          end
+        ],
       ].each {|option| op.on(*option) }
         
       op.parse!

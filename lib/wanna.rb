@@ -4,8 +4,11 @@ module Wanna
   VERSION = '0.0.1'
 end 
 
+require 'wanna/option_store'
 require 'wanna/task'
 require 'wanna/task/basic'
 
 require 'wanna/tasklist'
 require 'wanna/tasklist_builder'
+                           
+Wanna::Options = Wanna::OptionStore.new

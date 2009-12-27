@@ -60,6 +60,17 @@ class TestTasklistBuilder < Test::Unit::TestCase
     end
   end 
   
+  context "a TasklistBuilder with options" do
+    setup do
+      @tlb = Wanna::TasklistBuilder.new
+    end
+    
+    should "change the runtime option value" do
+      assert_equal :errors, Wanna::Options[:tracing]
+      @tlb.options(:tracing => :verbose)
+      assert_equal :verbose, Wanna::Options[:tracing]      
+    end
+  end
   
   context "a task builder with a couple of tasks" do
     setup do 
