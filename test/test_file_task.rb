@@ -1,7 +1,4 @@
 require File.expand_path('test_helper', File.dirname(__FILE__))
-require 'wanna/file_target'
-require 'wanna/task/file'
-require 'mocha'
 
 class TestFileTask < Test::Unit::TestCase
 

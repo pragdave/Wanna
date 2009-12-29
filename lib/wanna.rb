@@ -4,11 +4,20 @@ module Wanna
   VERSION = '0.0.1'
 end 
 
-require 'wanna/option_store'
-require 'wanna/task'
-require 'wanna/task/basic'
-
-require 'wanna/tasklist'
-require 'wanna/tasklist_builder'
+%w{ 
+  wanna/log
+  wanna/file_target
+  wanna/task
+  wanna/task/basic
+  wanna/task/file
+  wanna/tasklist
+  wanna/option_store
+  wanna/task
+  wanna/task/basic
+  wanna/tasklist
+  wanna/tasklist_builder 
+}.each do |library|
+  require library
+end
                            
 Wanna::Options = Wanna::OptionStore.new

@@ -1,6 +1,4 @@
 require File.expand_path('test_helper', File.dirname(__FILE__))
-require 'wanna/task/basic'
-require 'wanna/tasklist'
 
 class TestTasklist < Test::Unit::TestCase
 

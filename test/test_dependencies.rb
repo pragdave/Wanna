@@ -1,6 +1,4 @@
 require File.expand_path('test_helper', File.dirname(__FILE__))
-require 'wanna/tasklist_builder'
-require 'mocha'
 
 # It would be nice to be able to use fakefs, but its support for utime isn't there, and
 # I don't currently have time for a patch

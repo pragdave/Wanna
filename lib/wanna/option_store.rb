@@ -8,14 +8,14 @@ module Wanna
       def validate(option, value)
         value = value.intern unless value.kind_of?(Symbol)
         unless @allowed.include?(value)
-          fail "The `#{option}' option can only take one of the values #{@allowed.join(', ')}"
+          fail "The `#{option}' option can only take one of the values #{@allowed.join(', ')}. (I got `#{value}')"
         end
       end
     end
 
     VALID_OPTIONS = {
-      :tracing => OneOf.new(:silent, :errors, :information, :verbose)
-    }
+      :tracing => OneOf.new(*Wanna::Log::LEVELS)
+    } unless defined?(VALID_OPTIONS)
 
 
     

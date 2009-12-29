@@ -1,5 +1,3 @@
-require 'wanna/log'
-
 module Wanna
   class Task
        

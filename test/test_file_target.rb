@@ -1,6 +1,4 @@
 require File.expand_path('test_helper', File.dirname(__FILE__))
-require 'wanna/file_target'
-require 'mocha'
 
 class TestFileTarget < Test::Unit::TestCase
   context "The exist? method of a file target" do

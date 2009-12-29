@@ -1,14 +1,12 @@
 module Wanna
   class Tasklist
 
-    DEFAULT_GROUP = []
-    
     def initialize
       @tasks = {}
       @tasks_by_group = {}
     end
 
-    def add_task(task, group = DEFAULT_GROUP)
+    def add_task(task, group = [])
       add_task_by_name(task, task.name, group)
       add_task_by_name(task, task.short_name, group) if task.short_name
     end

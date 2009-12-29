@@ -1,9 +1,3 @@
-require "wanna/tasklist"
-require "wanna/task"
-require "wanna/task/basic"
-require "wanna/task/file"
-require "wanna/file_target"
-
 module Wanna
   class TasklistBuilder
     
