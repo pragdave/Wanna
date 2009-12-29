@@ -29,7 +29,11 @@ module Wanna
 
   private
     def self.colorize(color, msg)
-      "\033[3#{COLOR_MAP[color]}m#{msg}\033[39m"
+      if Wanna::Options[:colorize]
+        "\033[3#{COLOR_MAP[color]}m#{msg}\033[39m"
+      else
+        msg
+      end
     end
   end
 end

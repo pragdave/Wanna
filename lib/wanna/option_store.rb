@@ -29,7 +29,8 @@ module Wanna
 
     VALID_OPTIONS = {
       :tracing       => OneOf.new(*Wanna::Log::LEVELS),
-      :show_commands => Boolean.new
+      :show_commands => Boolean.new,
+      :colorize      => Boolean.new,
     } unless defined?(VALID_OPTIONS)
 
 
@@ -88,6 +89,8 @@ module Wanna
       # Set the default options. We could just use a hash literal, but this
       # way we get parameter checking
       set_default_option(:tracing, :errors)
+      set_default_option(:show_commands, true)
+      set_default_option(:colorize, !!(ENV['TERM'] && ENV['TERM'] =~ /color/i))
     end
     
     
