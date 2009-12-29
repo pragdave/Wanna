@@ -15,7 +15,7 @@ module Wanna
     end 
     
     def execute
-      Wanna::Log.info("#{@name}")
+      Wanna::Log.info("running: #{@name}")
       block.call
     end 
     

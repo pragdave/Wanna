@@ -1,6 +1,8 @@
 module Wanna
   class TasklistBuilder
     
+    include Wanna::Helpers
+    
     def initialize
       @tasklist = Tasklist.new 
       @groups  = []

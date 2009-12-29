@@ -1,5 +1,18 @@
 module Wanna
   class OptionStore
+
+    class Boolean
+      def validate(option, value)
+        case value
+        when /^(off|no|false)$/i, false, nil 
+          false
+        when /^(on|yes|true)$/i, true
+          true
+        else
+          fail "Invalid boolean value `#{value}' for option `#{option}'"
+        end
+      end
+    end
     
     class OneOf
       def initialize(*allowed)
@@ -10,11 +23,13 @@ module Wanna
         unless @allowed.include?(value)
           fail "The `#{option}' option can only take one of the values #{@allowed.join(', ')}. (I got `#{value}')"
         end
+        value
       end
     end
 
     VALID_OPTIONS = {
-      :tracing => OneOf.new(*Wanna::Log::LEVELS)
+      :tracing       => OneOf.new(*Wanna::Log::LEVELS),
+      :show_commands => Boolean.new
     } unless defined?(VALID_OPTIONS)
 
 
@@ -39,7 +54,14 @@ module Wanna
 
     # Command line options trump demands file options, and both trump the defaults
     def [](option)
-      @command_line_options[option] ||@demands_file_options[option] || @default_options[option]
+      case
+        when @command_line_options.has_key?(option)
+          @command_line_options[option]
+        when @demands_file_options.has_key?(option)
+          @demands_file_options[option]
+        else
+          @default_options[option]
+        end
     end
     
     
@@ -47,8 +69,7 @@ module Wanna
     
     def set_option(store, option, value)
       option = option.intern unless option.kind_of?(Symbol)
-      validate(option, value)
-      store[option] = value
+      store[option] = validate(option, value)
     end
     
     def validate(option, value)

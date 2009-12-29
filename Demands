@@ -1,8 +1,8 @@
-options(:tracing => :verbose)
+options(:tracing => :verbose, :show_commands => true)
 
 group "Testing" do
   to "show test coverage (aka rcov)" do
-    system("rcov -I lib -x /Library -x wanna.rb -i lib/**/*.rb test/test*rb")
+    sh "rcov -I lib -x /Library -x wanna.rb -i lib/**/*.rb test/test*rb"
   end
 end
 

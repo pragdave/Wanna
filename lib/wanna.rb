@@ -6,6 +6,7 @@ end
 
 %w{ 
   wanna/log
+  wanna/helpers
   wanna/file_target
   wanna/task
   wanna/task/basic

@@ -7,7 +7,7 @@ class TestLog < Test::Unit::TestCase
       Wanna::Log.info("hello")
     end
     should "log error messages" do
-      STDERR.expects(:puts).once
+      STDERR.expects(:puts).times(2)
       Wanna::Log.error("hello")
     end
   end
