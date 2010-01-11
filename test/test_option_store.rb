@@ -45,5 +45,9 @@ class TestOptionStore < Test::Unit::TestCase
     should "not allow an invalid value to be passed to an option" do
       assert_raises(RuntimeError) { @os.set_command_line_option(:tracing, :wobble) }
     end
+    should "detect an invalid boolean option" do
+      assert_raises(RuntimeError) { @os.set_command_line_option(:colorize, :wobble) }
+    end
+    
   end
 end
