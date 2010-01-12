@@ -44,4 +44,25 @@ class TestHelperCommandExecution < Test::Unit::TestCase
     end
   end
   
+  context "the ruby() helper" do
+    require 'rbconfig'
+    
+    setup do
+      Wanna::Options.set_command_line_option(:show_commands, false) 
+      @helper = Object.new.extend(Wanna::Helpers::CommandExecution)
+      @ruby = File.join(::Config::CONFIG["bindir"], ::Config::CONFIG["ruby_install_name"])
+    end
+    
+    should "run the current ruby interpreter" do
+      @helper.expects(:system).with("#{@ruby} a b").returns(true)
+      @helper.ruby("a b")
+    end
+    
+    should "concatenate any array options" do
+      @helper.expects(:system).with("#{@ruby} a b").returns(true)
+      @helper.ruby(["a", ["b"]])
+    end
+    
+  end
+  
 end

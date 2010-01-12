@@ -1,8 +1,12 @@
 options(:tracing => :verbose, :show_commands => true)
 
 group "Testing" do
+  to "run all tests (aka test)" do
+    run_tests 
+  end
+
   to "show test coverage (aka rcov)" do
-    sh "rcov -I lib -x /Library -x wanna.rb -i lib/**/*.rb test/test*rb"
+    run_rcov :exclude => [ "/Library", "wanna.rb" ], :include => "lib/**/*.rb"
   end
 end
 
