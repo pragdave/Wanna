@@ -35,14 +35,14 @@ module Wanna
       end
       
       def cmd_line_escape(names, flag=nil)
-        if names.respond_to?(:each)
+        if names.kind_of? String
+          escape_one_name(names, flag)
+        else
           result = [] 
           names.each do |name|
             result << escape_one_name(name, flag)
           end
           result.join(' ')
-        else
-          escape_one_name(names, flag)
         end
       end
       
