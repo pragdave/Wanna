@@ -6,6 +6,8 @@ require 'wanna'
 module Wanna::Cmd
   class Options
     
+    attr_reader :display_task_pattern
+    
     def initialize(tasklist_builder)
       @tasklist_builder = tasklist_builder
     end
@@ -17,10 +19,9 @@ module Wanna::Cmd
       op.separator "Options are…"
       
       [
-        ['--tasks', '-T [PATTERN]', "Display the tasks and exit.",
-          lambda do |pattern|
-            @tasklist_builder.display_tasks_matching(pattern, STDOUT)
-            exit 0
+        ['--demands-file', '-f demandfile', "Read demands from the given file (default 'Demands')",
+          lambda do |filename|
+            @tasklist_builder.demand_file_name = filename
           end
         ],
         ['--option', '-O option=value', "Set the given option before parsing the demands",
@@ -28,6 +29,17 @@ module Wanna::Cmd
             set_wanna_option(opt)
           end
         ],
+        ['--tasks', '-T [PATTERN]', "Display the tasks and exit.",
+          lambda do |pattern|
+            @display_task_pattern = pattern || '.'
+          end
+        ],
+        ['--version', '-V', "Display the curent version and exit.",
+          lambda do
+            STDERR.puts "wanna #{Wanna::VERSION}"
+            exit 0
+          end
+        ]
       ].each {|option| op.on(*option) }
         
       op.parse!

@@ -1,20 +1,18 @@
 # -*- ruby -*-
 require 'wanna'
-
 require 'wanna/cmd/options'
 
-
-
-rikefile = File.read("Demands")
-
 builder = Wanna::TasklistBuilder.new
-builder.interpret do
-  eval(rikefile)
-end 
                   
 options = Wanna::Cmd::Options.new(builder)
 options.parse
 
-ARGV.each do |target|
-  builder.run_target(target)
+builder.load_demands
+
+if options.display_task_pattern
+  builder.display_tasks_matching(options.display_task_pattern, STDOUT)
+else
+  ARGV.each do |target|
+    builder.run_target(target)
+  end
 end

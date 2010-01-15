@@ -1,19 +1,6 @@
 = wanna
 
-== DESCRIPTION:
-
-== FEATURES/PROBLEMS:
-
-== SYNOPSIS:
-
-== Dependencies:
-
-* For testing
-** gem install shoulda
-** gem install rcov
-** gem install mocha
-
-== INSTALL:
+This is the description.
 
 == LICENSE:
 

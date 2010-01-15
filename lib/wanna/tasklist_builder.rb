@@ -3,13 +3,13 @@ module Wanna
     
     include Wanna::Helpers
     
+    attr_accessor :demand_file_name
+    
     def initialize
       @tasklist = Tasklist.new 
       @groups  = []
-    end
-    
-    def interpret(&block)
-      instance_eval(&block)
+      @demand_file_name = "Demands"
+      @demands_loaded = false
     end
     
     # Set the options for the run
@@ -32,6 +32,15 @@ module Wanna
       end
     end
     
+    def interpret(&block)
+      instance_eval(&block)
+    end
+    
+    def load_demands
+      eval(File.read(@demand_file_name))
+    end
+        
+    
     # Used to specify that a target is a file (or a file pattern)
     #
     #   to create("book.pdf") do..
@@ -46,7 +55,7 @@ module Wanna
     
     def to(task_descriptor, options = {}, &block) 
       klass = case task_descriptor
-        when String           then Task::Basic
+        when String            then Task::Basic
         when Wanna::FileTarget then Task::File
         else
           fail "The first parameter to a to() call should be a String. I got a #{task_descriptor.class}"

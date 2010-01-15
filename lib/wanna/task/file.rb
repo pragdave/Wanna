@@ -13,7 +13,7 @@ module Wanna
       def out_of_date?(tasklist)
         return true unless @file_target.exist?                   
         
-        # not the following is a recursive step
+        # note the following is a recursive step
         return true if direct_ancestors.any? {|a| tasklist.out_of_date?(a) }
         
         # we now know that all our ancestors are file tasks and the files exist...

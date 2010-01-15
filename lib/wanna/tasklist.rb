@@ -34,6 +34,7 @@ module Wanna
     def tasks_in_group(group_array)
       @tasks_by_group[group_array].values
     end
+    
   private
     
     def add_task_by_name(task, name, group)
