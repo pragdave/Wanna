@@ -5,7 +5,7 @@ class TestHelperTesting < Test::Unit::TestCase
   context "Helper methods in Testing" do
     
     setup do
-      @helper = Object.new.extend(Wanna::Helpers::Testing)
+      @helper = Object.new.extend(Wanna::Helpers)
       @defaults = { :opt1 => "one", :opt2 => "two"}
     end
     

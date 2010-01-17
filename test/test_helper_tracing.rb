@@ -5,7 +5,7 @@ class TestHelperTracing < Test::Unit::TestCase
   context "Tracing" do
     
     setup do
-      @helper = Object.new.extend(Wanna::Helpers::Tracing)
+      @helper = Object.new.extend(Wanna::Helpers)
     end
     
     should "call an info-level log when say() is called" do

@@ -6,7 +6,7 @@ class TestHelperCommandExecution < Test::Unit::TestCase
     
     setup do
       Wanna::Options.set_command_line_option(:show_commands, false) 
-      @helper = Object.new.extend(Wanna::Helpers::CommandExecution)
+      @helper = Object.new.extend(Wanna::Helpers)
     end
     
     should "invoke Kernel::system" do
@@ -26,7 +26,7 @@ class TestHelperCommandExecution < Test::Unit::TestCase
     
     setup do
       Wanna::Options.set_command_line_option(:show_commands, true) 
-      @helper = Object.new.extend(Wanna::Helpers::CommandExecution)
+      @helper = Object.new.extend(Wanna::Helpers)
     end
     
     should "trace the command and invoke Kernel::system" do
@@ -49,7 +49,7 @@ class TestHelperCommandExecution < Test::Unit::TestCase
     
     setup do
       Wanna::Options.set_command_line_option(:show_commands, false) 
-      @helper = Object.new.extend(Wanna::Helpers::CommandExecution)
+      @helper = Object.new.extend(Wanna::Helpers)
       @ruby = File.join(::Config::CONFIG["bindir"], ::Config::CONFIG["ruby_install_name"])
     end
     
