@@ -32,6 +32,8 @@ Wanna::Helpers.for("Running tests") do
     sh "rcov #{options.join(' ')} #{@pattern}"
   end
   
+  private
+  
   def cmd_line_escape(names, flag=nil)
     if names.kind_of? String
       escape_one_name(names, flag)

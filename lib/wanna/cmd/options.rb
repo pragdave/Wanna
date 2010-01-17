@@ -14,14 +14,18 @@ module Wanna::Cmd
     
     def parse
       op = OptionParser.new
-      op.banner = "wanna <options> <targets...>"
-      op.separator ""
-      op.separator "Options are…"
+      op.banner = "\nwanna <options> <targets...>\n\n"
       
       [
-        ['--demands-file', '-f demandfile', "Read demands from the given file (default 'Demands')",
+        ['--demands', '-f file-or-dir', "Read demands from the given file or directory (default 'Demands')",
           lambda do |filename|
             @tasklist_builder.demand_file_name = filename
+          end
+        ],
+        ['--list-helpers', '-L', "Display the names of helper methods and exit.",
+          lambda do |pattern|
+            Wanna::Helpers.list(STDOUT)
+            exit 0
           end
         ],
         ['--option', '-O option=value', "Set the given option before parsing the demands",

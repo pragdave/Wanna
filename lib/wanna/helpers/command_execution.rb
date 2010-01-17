@@ -16,6 +16,8 @@ Wanna::Helpers.for("Command invocation") do
     sh("#{RUBY} #{args.flatten.join(' ')}")
   end
   
+  private 
+  
   def report_failure(cmd, args)
     Wanna::Log.error("Command failed: #{cmd}")
     exit 1

@@ -7,9 +7,21 @@ module Wanna
   # are used inside the individual tasks
   module Helpers
    
+   LIST_BY_MODULE = {} unless defined?(LIST_BY_MODULE)
+   
    def self.for(description, &block)
       fail "missing helper block for #{description}" unless block
-      include Module.new(&block)
+      mod = Module.new(&block)
+      LIST_BY_MODULE[description] = mod.instance_methods.sort
+      include mod
+   end
+   
+   def self.list(io)
+     LIST_BY_MODULE.keys.sort.each do |description|
+       io.puts description
+       methods = LIST_BY_MODULE[description]
+       io.puts "    #{methods.join(', ')}"
+     end
    end
   end
 end     

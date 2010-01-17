@@ -6,6 +6,11 @@ class TestHelperTesting < Test::Unit::TestCase
     
     setup do
       @helper = Object.new.extend(Wanna::Helpers)
+     
+      # expose the private methods
+      def @helper.set_instance_variable_options(*); super; end
+      def @helper.cmd_line_escape(*); super; end
+      
       @defaults = { :opt1 => "one", :opt2 => "two"}
     end
     
