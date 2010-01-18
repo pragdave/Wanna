@@ -6,10 +6,10 @@ require 'wanna'
 module Wanna::Cmd
   class Options
     
-    attr_reader :display_task_pattern
+    attr_reader :display_task_pattern, :demand_file_name
     
-    def initialize(tasklist_builder)
-      @tasklist_builder = tasklist_builder
+    def initialize
+      @demand_file_name = "Demands"
     end
     
     def parse
@@ -19,7 +19,7 @@ module Wanna::Cmd
       [
         ['--demands', '-f file-or-dir', "Read demands from the given file or directory (default 'Demands')",
           lambda do |filename|
-            @tasklist_builder.demand_file_name = filename
+            @demand_file_name = filename
           end
         ],
         ['--list-helpers', '-L', "Display the names of helper methods and exit.",

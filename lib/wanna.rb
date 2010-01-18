@@ -2,6 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless $:.include?(File.dirname(__FILE__)) ||
 
 %w{ 
   wanna/log
+  wanna/environment
   wanna/helpers
   wanna/file_target
   wanna/task

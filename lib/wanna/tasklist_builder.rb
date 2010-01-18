@@ -3,13 +3,9 @@ module Wanna
     
     include Wanna::Helpers
     
-    attr_accessor :demand_file_name
-    
     def initialize
       @tasklist = Tasklist.new 
       @groups  = []
-      @demand_file_name = "Demands"
-      @demands_loaded = false
     end
     
     # Set the options for the run
@@ -36,8 +32,8 @@ module Wanna
       instance_eval(&block)
     end
     
-    def load_demands
-      eval(File.read(@demand_file_name))
+    def load(demands)
+      eval(demands)
     end
         
     

@@ -6,7 +6,6 @@ class TestHelperModule < Test::Unit::TestCase
     context "when passed a module containing methods" do
       setup do
         Wanna::Helpers.for("a test") do
-          puts "INCLUDING"
           def meth1; end
           def meth2; end
         end unless Wanna::Helpers.instance_methods.include?("meth1")

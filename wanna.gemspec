@@ -18,5 +18,5 @@ Gem::Specification.new do |spec|
   spec.requirements << 'A sense of humor'
   spec.summary = 'A simple depedencency-based command execution tool'
   spec.test_files = Dir['test/_*.rb']
-  spec.version = Wanna::VERSION
+  spec.version = Wanna::VERSION + "." + Time.now.to_i.to_s
 end

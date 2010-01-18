@@ -1,13 +1,16 @@
-# -*- ruby -*-
+#!/usr/bin/env ruby
+
 require 'wanna'
 require 'wanna/cmd/options'
 
-builder = Wanna::TasklistBuilder.new
                   
-options = Wanna::Cmd::Options.new(builder)
+options = Wanna::Cmd::Options.new
 options.parse
 
-builder.load_demands
+demands = Wanna::Environment.load(options)
+
+builder = Wanna::TasklistBuilder.new
+builder.load(demands)
 
 if options.display_task_pattern
   builder.display_tasks_matching(options.display_task_pattern, STDOUT)

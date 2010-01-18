@@ -19,7 +19,13 @@ class TestTasklistBuilder < Test::Unit::TestCase
       @io.expects(:puts).with("basic task (aka simple)")
       @tlb.display_tasks_matching("simp", @io)
     end
-  
+   
+    should "load demands from a string" do
+      @tlb.load("to 'do something (doit)'")
+      @io.expects(:puts).with("do something (doit)")
+      @tlb.display_tasks_matching("some", @io)
+    end
+    
     context "with tasks in a group using the block form of group()" do
       setup do
         @tlb.group("group1") do 
@@ -57,17 +63,7 @@ class TestTasklistBuilder < Test::Unit::TestCase
     should "raise an exception if the first parameter isn't recognized" do
       assert_raises(RuntimeError) { @tlb.to(99) }
     end
-    
-    should "load demands from the file Demands by default" do
-      File.expects(:read).with("Demands").returns("")
-      @tlb.load_demands
-    end
-
-    should "allow the name of the demands file to be overridden" do
-      @tlb.demand_file_name = "Pleas"
-      File.expects(:read).with("Pleas").returns("")
-      @tlb.load_demands
-    end
+     
 
   end 
   
